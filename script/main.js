@@ -31,6 +31,8 @@ let stockData = [
   }
 ];
 
+let buttonState = "2";
+
 function clearAppContainer() {
   let container = document.getElementsByClassName("appContainer")[0];
   container.innerHTML = "";
@@ -49,18 +51,28 @@ function renderStockListHeader() {
     </header>`
 }
 
-function renderStockListItem(data) {
+function renderStockListItem(data, buttonState) {
   const { Name, Change, PercentChange, LastTradePriceOnly } = data;
+
+  // round stockprice to two digits
   const roundedLastTradePriceOnly = parseFloat(LastTradePriceOnly).toFixed(2);
 
+  // round Change
+  const roundedChange = parseFloat(Change).toFixed(2);
+
+  // add positive css class incase % is positive
   const priceDirection = PercentChange.includes("-")? "" : "positive";
+
+  const buttonContent = buttonState === "1" ? PercentChange : roundedChange;
+
+
 
   return `
     <li class="contentStrip stockItem">
       <span class="companyTag">${Name}</span>
       <div class="stockItemRight">
          <span class="stockPrice">${roundedLastTradePriceOnly}</span>
-         <button class="stockButton ${priceDirection}">${PercentChange}</button>
+         <button class="stockButton ${priceDirection}">${buttonContent}</button>
          <div class="stockButtonContainer">
            <button class="stockButtonArrow stockUpButton icon-arrow"></button>
            <button class="stockButtonArrow stockDownButton icon-arrow"></button>
@@ -70,12 +82,15 @@ function renderStockListItem(data) {
   `
 }
 
-function renderStockList(data) {
-  return data.map(renderStockListItem)
+function renderStockList(data, buttonState) {
+  return data.map( (item) => {
+    return renderStockListItem(item, buttonState)
+  });
+
 }
 
-function renderStockListContainer (data) {
-  const renderedHTML = renderStockList(data).join("");
+function renderStockListContainer (data, buttonState) {
+  const renderedHTML = renderStockList(data, buttonState).join("");
 
   return `
     <ul class="stockListContainer">
@@ -84,7 +99,7 @@ function renderStockListContainer (data) {
   `
 }
 
-function placeStockList() {
+function placeStockList(buttonState) {
   //clear all content from screen
   clearAppContainer();
 
@@ -95,17 +110,29 @@ function placeStockList() {
   dataToRender.push(renderStockListHeader());
 
   // render stocklist
-  dataToRender.push(renderStockListContainer(stockData));
-
-
+  dataToRender.push(renderStockListContainer(stockData, buttonState));
 
   // append header to container
   let container = document.getElementsByClassName("appContainer")[0];
   container.innerHTML = dataToRender.join("");
+
+  //add event listener
+  document.getElementsByClassName("stockListContainer")[0].addEventListener("click", eventToggleButtonInfo);
+}
+
+function eventToggleButtonInfo(event) {
+  const target = event.target.className;
+
+  if(target.includes("stockButton ")) {
+    buttonState = buttonState === "1" ? "2" : "1";
+
+    //rerender page
+    placeStockList(buttonState);
+  }
 }
 
 function init() {
-  placeStockList();
+  placeStockList(buttonState);
 }
 
 init();
