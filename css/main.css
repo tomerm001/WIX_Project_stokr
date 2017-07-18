@@ -1,0 +1,173 @@
+/* ====== GENERAL ===== */
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 100%;
+  font-family: 'Lucida Grande', sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit
+}
+
+button:focus {
+  outline: none;
+}
+
+
+
+.main {
+  margin: 0;
+  padding: 0;
+}
+
+
+
+.main .appContainer {
+  margin: 50px auto auto;
+  max-width: 1383px;
+  min-width: 1000px;
+  padding: 40px 30px;
+  background-color: #f0f4f7;
+  border: 1px solid #f0f4f7;
+}
+
+.contentStrip {
+  margin: 1px 0;
+  padding: 30px 40px;
+  background-color: #fff;
+}
+
+
+/* ===== STOCK LIST ==== */
+
+
+
+/* ------ HEADER ------ */
+
+.main .appContainer header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+
+.main .appContainer header h1 {
+  margin: 0;
+  padding: 0;
+  color: #41bf15;
+  font-size: 39px;
+  font-weight: bold;
+}
+
+.main .appContainer header .buttonContainer {
+}
+
+
+.main .appContainer header .buttonContainer .headerButton {
+  display: inline-block;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 10px;
+  height: 44px;
+  width: 41px;
+}
+
+.main .appContainer header .buttonContainer .buttonSearch {
+  background: url("../assets/svg/search-place-holder.svg") no-repeat center;
+  background-size: contain;
+}
+.main .appContainer header .buttonContainer .buttonRefresh {
+  background: url("../assets/svg/refresh.svg") no-repeat center;
+  background-size: contain;
+}
+.main .appContainer header .buttonContainer .buttonFilter {
+  background: url("../assets/svg/filter.svg") no-repeat center;
+  background-size: contain;
+}
+.main .appContainer header .buttonContainer .buttonSettings {
+  background: url("../assets/svg/settings.svg") no-repeat center;
+  background-size: contain;
+}
+
+/* ------ STOCK LIST ------ */
+
+.main .appContainer ul.stockListContainer {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "Avenir", serif;
+  font-size: 33px;
+}
+
+.main .appContainer .stockListContainer li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.main .appContainer .stockListContainer .stockItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: #59737c;
+  font-weight: 300;
+  font-size: 33px;
+  align-items: center;
+}
+
+.main .appContainer .stockListContainer .stockItem .stockItemRight {
+  display: flex;
+  align-items: center;
+}
+
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockPrice {
+  text-align: right;
+  font-family: "Helvetica Neue", serif;
+  font-size: 30px;
+  color: #59737c;
+}
+
+
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockButton {
+  text-align: right;
+  color: #ffffff;
+  border-radius: 10px;
+  width: 150px;
+  height: 56px;
+  padding: 0 20px 0 0;
+  background-color: #ff4f46;;
+  font-size: 34px;
+  font-family: "Avenir", serif;
+  font-weight: 300;
+  border: none;
+  margin: 0 30px;
+}
+
+
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockButtonArrow {
+  display: block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  line-height: 0;
+  font-size: 25px;
+  color: #ababab;
+}
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockButtonArrow.stockDownButton {
+  display: block;
+  transform: rotate(180deg);
+  text-align: center;
+}
+
+
+
+
+
+
+
