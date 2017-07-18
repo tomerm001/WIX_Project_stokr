@@ -148,6 +148,10 @@ button:focus {
   margin: 0 30px;
 }
 
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockButton.positive {
+  background-color: #63da39;
+}
+
 
 .main .appContainer .stockListContainer .stockItem .stockItemRight .stockButtonArrow {
   display: block;
