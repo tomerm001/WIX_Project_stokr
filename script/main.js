@@ -1,6 +1,6 @@
 (function () {
   'use strict'
-// DATA
+// DATAgit status
 
   let stockSymbolList = ["WIX", "MSFT", "YHOO"];
 
