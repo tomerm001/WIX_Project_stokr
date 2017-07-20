@@ -1,5 +1,5 @@
 (function () {
-
+  'use strict'
 // DATA
 
   let stockSymbolList = ["WIX", "MSFT", "YHOO"];
