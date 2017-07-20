@@ -33,11 +33,13 @@ let stockData = [
 
 let buttonState = "2";
 
+// Clears all HTML content from appContainer
 function clearAppContainer() {
   let container = document.getElementsByClassName("appContainer")[0];
   container.innerHTML = "";
 }
 
+// HTML content to render Stockist Tool Bar
 function renderStockListHeader() {
   return `
     <header class="contentStrip">
@@ -51,6 +53,7 @@ function renderStockListHeader() {
     </header>`
 }
 
+// Render Specific Stock Item Line
 function renderStockListItem(data, buttonState) {
   const { Name, Change, PercentChange, LastTradePriceOnly } = data;
 
@@ -64,8 +67,6 @@ function renderStockListItem(data, buttonState) {
   const priceDirection = PercentChange.includes("-")? "" : "positive";
 
   const buttonContent = buttonState === "1" ? PercentChange : roundedChange;
-
-
 
   return `
     <li class="contentStrip stockItem">
@@ -82,13 +83,14 @@ function renderStockListItem(data, buttonState) {
   `
 }
 
+//render stocklist section
 function renderStockList(data, buttonState) {
   return data.map( (item) => {
     return renderStockListItem(item, buttonState)
   });
-
 }
 
+//Render Stocklist Container with Stocklist data
 function renderStockListContainer (data, buttonState) {
   const renderedHTML = renderStockList(data, buttonState).join("");
 
@@ -99,11 +101,11 @@ function renderStockListContainer (data, buttonState) {
   `
 }
 
-function placeStockList(buttonState) {
+function placeStockList(stockData, buttonState) {
   //clear all content from screen
   clearAppContainer();
 
-  //datacontainer
+  //datacontainer for all HTML to be rendered for stock list page
   let dataToRender = [];
 
   // render stocklist header
@@ -132,7 +134,8 @@ function eventToggleButtonInfo(event) {
 }
 
 function init() {
-  placeStockList(buttonState);
+  //Initializes page with StockList
+  placeStockList(stockData, buttonState);
 }
 
 init();
