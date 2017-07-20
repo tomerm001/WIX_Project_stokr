@@ -1,3 +1,15 @@
+/*Add fonts to project*/
+@font-face {
+  font-family: "HelveticaNeueW01-55Roma";
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix");
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix") format("eot"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.woff") format("woff"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.ttf") format("truetype"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.svg#helvetica_neue") format("svg");
+}
+
+
+
 /* ====== GENERAL ===== */
 body {
   margin: 0;
@@ -127,7 +139,7 @@ button:focus {
 
 .main .appContainer .stockListContainer .stockItem .stockItemRight .stockPrice {
   text-align: right;
-  font-family: "Helvetica Neue", serif;
+  font-family: "HelveticaNeueW01-55Roma", serif;
   font-size: 30px;
   color: #59737c;
 }

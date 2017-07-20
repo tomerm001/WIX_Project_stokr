@@ -1,6 +1,7 @@
 (function () {
-  'use strict'
-// DATAgit status
+  'use strict';
+
+// DATA
 
   let stockSymbolList = ["WIX", "MSFT", "YHOO"];
 
@@ -51,29 +52,35 @@
   }
 
 // Render Specific Stock Item Line
-  function renderStockListItem(data, buttonState) {
-    const {Name, Change, PercentChange, LastTradePriceOnly} = data;
+  function renderStockListItem(itemData, index, dataLength, buttonState) {
 
+    //deconstruct itemData
+    const {Name, Change, PercentChange, LastTradePriceOnly} = itemData;
     // round stockprice to two digits
     const roundedLastTradePriceOnly = parseFloat(LastTradePriceOnly).toFixed(2);
-
     // round Change
     const roundedChange = parseFloat(Change).toFixed(2);
 
     // add positive css class incase % is positive
     const priceDirection = PercentChange.includes("-") ? "" : "positive";
 
+    //logic to decide what logic should be included
     const buttonContent = buttonState === "1" ? PercentChange : roundedChange;
 
+    // const directionUp =
+
+
+
+
     return `
-    <li class="contentStrip stockItem">
+    <li data-itemNumber="${index+1}" class="contentStrip stockItem">
       <span class="companyTag">${Name}</span>
       <div class="stockItemRight">
          <span class="stockPrice">${roundedLastTradePriceOnly}</span>
          <button class="stockButton ${priceDirection}">${buttonContent}</button>
          <div class="stockButtonContainer">
-           <button class="stockButtonArrow stockUpButton icon-arrow"></button>
-           <button class="stockButtonArrow stockDownButton icon-arrow"></button>
+           <button data-direction="up" class="stockButtonArrow stockUpButton icon-arrow" ></button>
+           <button data-direction="down" class="stockButtonArrow stockDownButton icon-arrow" ></button>
          </div>
       </div>
     </li>
@@ -82,8 +89,10 @@
 
 //render stocklist section
   function renderStockList(data, buttonState) {
-    return data.map((item) => {
-      return renderStockListItem(item, buttonState)
+    const dataLength = data.length;
+
+    return data.map((item, index) => {
+      return renderStockListItem(item, index, dataLength, buttonState)
     });
   }
 
@@ -119,6 +128,10 @@
     document.getElementsByClassName("stockListContainer")[0].addEventListener("click", eventToggleButtonInfo);
   }
 
+
+  // ------ Event Handlers -------
+
+  // event handler to toggle button content %, absolut market cap
   function eventToggleButtonInfo(event) {
     const target = event.target.className;
 
@@ -129,6 +142,12 @@
       placeStockList(buttonState);
     }
   }
+
+  // event to change stock order
+  // function changeStockOrder () {
+  //
+  // }
+
 
   function init() {
     //Initializes page with StockList
