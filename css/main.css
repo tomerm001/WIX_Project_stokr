@@ -181,6 +181,11 @@ button:focus {
   text-align: center;
 }
 
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockButtonArrow:disabled,
+.main .appContainer .stockListContainer .stockItem .stockItemRight .stockButtonArrow.stockDownButton:disabled {
+  color:rgba(171, 171, 171, 0.2);
+}
+
 
 
 

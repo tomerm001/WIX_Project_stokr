@@ -54,29 +54,30 @@
   function renderStockListItem(itemData, index) {
     let {Name, LastTradePriceOnly} = itemData;
 
-    //logic to decide what logic should be included
+    //logic to decide what UI content should be included for the button
     const buttonContent = state.ui.stockViews[state.ui.stockMode];
-
-    //extract correct data for button
     let buttonValue;
-
-    switch (buttonContent){
+    switch (buttonContent) {
       case "Change":
-          buttonValue = parseFloat(itemData[buttonContent]).toFixed(2);
+        buttonValue = parseFloat(itemData[buttonContent]).toFixed(2);
         break;
       case "PercentChange":
-          buttonValue = itemData[buttonContent];
+        buttonValue = itemData[buttonContent];
         break;
       default:
         buttonValue = itemData[buttonContent];
     }
 
-    // add positive css class incase % is positive
+    // add positive css class in case % is positive
     const priceDirectParse = parseFloat(buttonValue);
     const priceDirection = priceDirectParse >= 0 ? "positive" : "";
 
-    // round stockprice to two digits
+    // round stock price to two digits
     const roundedLastTradePriceOnly = parseFloat(LastTradePriceOnly).toFixed(2);
+
+    //arrow key active or not
+    const arrowUp = index === 0 ? "disabled" : "";
+    const arrowDown = index >= (state.stocks.stockSymbolList.length - 1) ? "disabled" : "";
 
     return `
       <li data-item-number="${index + 1}" class="contentStrip stockItem">
@@ -85,9 +86,9 @@
            <span class="stockPrice">${roundedLastTradePriceOnly}</span>
            <button data-button-type="toggleInfo" class="stockButton ${priceDirection}">${buttonValue}</button>
            <div class="stockButtonContainer">
-             <button data-direction="up" data-item-number="${index + 1}" class="stockButtonArrow stockUpButton icon-arrow" 
-             ></button>
-             <button data-direction="down" data-item-number="${index + 1}" class="stockButtonArrow stockDownButton icon-arrow" ></button>
+             <button data-button-type="changePosition" data-direction="up" data-item-number="${index + 1}" 
+             class="stockButtonArrow stockUpButton icon-arrow" ${arrowUp} ></button>
+             <button data-button-type="changePosition" data-direction="down" data-item-number="${index + 1}" class="stockButtonArrow stockDownButton icon-arrow" ${arrowDown}></button>
            </div>
         </div>
       </li>
@@ -112,6 +113,7 @@
     `
   }
 
+  //main render function for Stocklist page
   function renderStocksApp(stockData) {
     //datacontainer for all HTML to be rendered for stock list page
     let dataToRender = [];
@@ -130,17 +132,19 @@
 
   // ------ Event Handlers -------
   function setupEvents() {
-    const mainUl = document.querySelector(".stockListContainer");
+    const mainContainer = document.querySelector("main.main");
 
     //add event listener for data toggle
-    mainUl.addEventListener("click", eventToggleButtonInfoHandler);
+    mainContainer.addEventListener("click", eventToggleButtonInfoHandler);
+
+    // add event to arrows
+    mainContainer.addEventListener("click", changeStockOrderHandler);
   }
 
   // event handler to toggle button content %, absolut market cap
   function eventToggleButtonInfoHandler(event) {
     const target = event.target;
 
-    console.dir(target);
     if (target.dataset.buttonType === "toggleInfo") {
 
       let currentState = state.ui.stockMode;
@@ -155,19 +159,37 @@
       //update global state
       state.ui.stockMode = currentState;
 
-      //rerender page and add event listeners
+      //rerender page
       renderStocksApp();
-      setupEvents();
     }
   }
 
   // event to change stock order
-  // function changeStockOrderHandler (event) {
-  //   const target = event.target
-  //   console.log(target);
-  //
-  // }
+  function changeStockOrderHandler(event) {
+    const target = event.target;
 
+    if (target.dataset.buttonType === "changePosition") {
+      // pressed index number
+      const indexPressed = target.dataset.itemNumber - 1;
+      //arrow pressed up or down
+      const direction = target.dataset.direction;
+      //Index to be switched
+      const targetIndex = direction === 'up' ? (indexPressed - 1) : (indexPressed + 1);
+
+      // change Stock Symbol List using temp element
+      let tempDataHolder = state.stocks.stockSymbolList[indexPressed];
+      state.stocks.stockSymbolList[indexPressed] = state.stocks.stockSymbolList[targetIndex];
+      state.stocks.stockSymbolList[targetIndex] = tempDataHolder;
+
+      // change Stock Symbol List using temp element
+      let tempDataHolder2 = state.stocks.stockData[indexPressed];
+      state.stocks.stockData[indexPressed] = state.stocks.stockData[targetIndex];
+      state.stocks.stockData[targetIndex] = tempDataHolder2;
+
+      // rerender app
+      renderStocksApp();
+    }
+  }
 
   function init() {
     //Initializes page with StockList
