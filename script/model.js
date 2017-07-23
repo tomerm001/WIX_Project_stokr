@@ -10,10 +10,6 @@
 
   //add state to model
   const state = {
-    ui: {
-      stockMode: 1,
-      stockViews: ["PercentChange", "Change"]
-    },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],
       stockData: [
@@ -42,7 +38,6 @@
     }
   };
 
-
   // methods
   function getStockList () {
     return state.stocks.stockSymbolList;
@@ -50,28 +45,6 @@
 
   function getStockData () {
     return state.stocks.stockData;
-  }
-
-  function getUiStockMode() {
-    return state.ui.stockMode;
-  }
-
-  function getUiStockViews() {
-    return state.ui.stockViews;
-  }
-
-  function toggleStockView() {
-    let currentState = state.ui.stockMode;
-    let amountModes = state.ui.stockViews.length;
-
-    //toggle to next mode
-    currentState = currentState + 1;
-
-    //if out of range reset to index 0
-    currentState = currentState >= amountModes ? 0 : currentState;
-
-    //update global state
-    state.ui.stockMode = currentState;
   }
 
   function adjustStockOrder(position1, position2) {
@@ -86,15 +59,10 @@
     state.stocks.stockData[position2] = tempDataHolder2;
   }
 
-
   //data and methods to export
   window.STOKR.model = {
     getStockList,
     getStockData,
-    getUiStockMode,
-    getUiStockViews,
-    toggleStockView,
-    adjustStockOrder
+    adjustStockOrder,
   };
-
 })();
