@@ -88,24 +88,26 @@ button:focus {
   margin: 0 10px;
   height: 44px;
   width: 41px;
+  font-size: 40px;
+  color: #ababab;
 }
 
-.main .appContainer header .buttonContainer .buttonSearch {
-  background: url("../assets/svg/search-place-holder.svg") no-repeat center;
-  background-size: contain;
-}
-.main .appContainer header .buttonContainer .buttonRefresh {
-  background: url("../assets/svg/refresh.svg") no-repeat center;
-  background-size: contain;
-}
-.main .appContainer header .buttonContainer .buttonFilter {
-  background: url("../assets/svg/filter.svg") no-repeat center;
-  background-size: contain;
-}
-.main .appContainer header .buttonContainer .buttonSettings {
-  background: url("../assets/svg/settings.svg") no-repeat center;
-  background-size: contain;
-}
+/*.main .appContainer header .buttonContainer .buttonSearch {*/
+  /*background: url("../assets/svg/search-place-holder.svg") no-repeat center;*/
+  /*background-size: contain;*/
+/*}*/
+/*.main .appContainer header .buttonContainer .buttonRefresh {*/
+  /*background: url("../assets/svg/refresh.svg") no-repeat center;*/
+  /*background-size: contain;*/
+/*}*/
+/*.main .appContainer header .buttonContainer .buttonFilter {*/
+  /*background: url("../assets/svg/filter.svg") no-repeat center;*/
+  /*background-size: contain;*/
+/*}*/
+/*.main .appContainer header .buttonContainer .buttonSettings {*/
+  /*background: url("../assets/svg/settings.svg") no-repeat center;*/
+  /*background-size: contain;*/
+/*}*/
 
 /* ------ STOCK LIST ------ */
 

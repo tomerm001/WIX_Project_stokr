@@ -42,10 +42,10 @@
     <header class="contentStrip">
         <h1>STOKR</h1>
         <div class="buttonContainer">
-          <button class="headerButton buttonSearch"></button>
-          <button class="headerButton buttonRefresh"></button>
-          <button class="headerButton buttonFilter"></button>
-          <button class="headerButton buttonSettings"></button>
+          <button class="headerButton icon-search"></button>
+          <button class="headerButton icon-refresh"></button>
+          <button class="headerButton icon-filter"></button>
+          <button class="headerButton icon-settings"></button>
         </div>
     </header>`
   }
