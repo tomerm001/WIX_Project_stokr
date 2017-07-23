@@ -109,6 +109,72 @@ button:focus {
   /*background-size: contain;*/
 /*}*/
 
+
+/* ------ Filter Section ------ */
+
+.filter-form {
+  font-family: HelveticaNeueW01-55Roman, sans-serif;
+  font-size: 26px;
+  color: #59737c;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 29px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.filter-form .inputs-container {
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.filter-form .inputs-container .inputs-container-section {
+  flex-grow: 1;
+  margin-right: 29px;
+}
+
+.filter-form .inputs-container .inputs-container-section .input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+
+}
+
+.filter-form .inputs-container .inputs-container-section.section-left label {
+  width: 140px;
+}
+.filter-form .inputs-container .inputs-container-section.section-right label {
+  width: 230px;
+}
+
+.filter-form .inputs-container .inputs-container-section .input-container input {
+  border: solid 1px #e0e0e0;
+  border-radius: 10px;
+  height: 55px;
+  flex-grow: 1;
+}
+
+.filter-form .filter-apply-button {
+  width: 120px;
+  height: 111px;
+  background-color: #41bf15;
+  border: solid 1px #247906;
+  color: white;
+  border-radius: 50%;
+  font-weight: 300;
+}
+
+
+
+
 /* ------ STOCK LIST ------ */
 
 .main .appContainer ul.stockListContainer {

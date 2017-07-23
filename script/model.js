@@ -10,6 +10,9 @@
 
   //add state to model
   const state = {
+    ui :{
+
+    },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],
       stockData: [

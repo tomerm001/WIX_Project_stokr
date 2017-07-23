@@ -31,6 +31,36 @@
     </header>`
   }
 
+  // HTML content to render filter form
+  function renderStockListFilter() {
+    return `
+      <form class="contentStrip filter-form">
+          <div class="inputs-container">
+            <div class="inputs-container-section section-left">
+              <div class="input-container">
+                <label for="name">By Name</label>
+                <input type="text" id="name" name="companyName">
+              </div>
+              <div class="input-container">
+                <label for="gain">By Gain</label>
+                <input type="number" id="gain" name="companyGain">
+              </div>
+            </div>
+            <div class="inputs-container-section section-right">
+              <div class="input-container">
+                <label for="range-from">By Range: From</label>
+                <input type="number" id="range-from" name="rangeFrom">
+              </div>
+              <div class="input-container">
+                <label for="range-to">By Range: to</label>
+                <input type="number" id="range-to" name=rangeTo>
+              </div>
+            </div>
+          </div>
+          <button class="filter-apply-button">Apply</button>
+        </form>`
+  }
+
   // Render Specific Stock Item Line
   function renderStockListItem(itemData, index, dataLength) {
     let {Name, LastTradePriceOnly} = itemData;
@@ -111,6 +141,8 @@
     // render stocklist header
     dataToRender.push(renderStockListHeader());
 
+    //render filter
+    dataToRender.push(renderStockListFilter());
 
     // render stocklist
     dataToRender.push(renderStockListContainer(stockData));
@@ -133,7 +165,6 @@
     //update global state
     state.ui.stockMode = currentState;
   }
-
 
 
   // data and methods to export
