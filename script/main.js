@@ -1,40 +1,9 @@
 (function () {
   'use strict';
 
-// DATA
+  // import view and model
+  const model = window.STOKR.model;
 
-  const state = {
-    ui: {
-      stockMode: 1,
-      stockViews: ["PercentChange", "Change"]
-    },
-    stocks: {
-      stockSymbolList: ["WIX", "MSFT", "YHOO"],
-      stockData: [
-        {
-          "Symbol": "WIX",
-          "Name": "Wix.com Ltd.",
-          "Change": "0.750000",
-          "PercentChange": "+1.51%",
-          "LastTradePriceOnly": "76.099998"
-        },
-        {
-          "Symbol": "MSFT",
-          "Name": "Microsoft Corporation",
-          "PercentChange": "-2.09%",
-          "Change": "-0.850006",
-          "LastTradePriceOnly": "69.620003"
-        },
-        {
-          "Symbol": "YHOO",
-          "Name": "Yahoo! Inc.",
-          "Change": "0.279999",
-          "PercentChange": "+1.11%",
-          "LastTradePriceOnly": "50.599998"
-        }
-      ]
-    }
-  };
 
 // HTML content to render Stockist Tool Bar
   function renderStockListHeader() {
@@ -54,8 +23,12 @@
   function renderStockListItem(itemData, index) {
     let {Name, LastTradePriceOnly} = itemData;
 
+    //get UI stockmode from model
+    const stockMode = model.getUiStockMode();
+    const stockViews = model.getUiStockViews();
+
     //logic to decide what UI content should be included for the button
-    const buttonContent = state.ui.stockViews[state.ui.stockMode];
+    const buttonContent = stockViews[stockMode];
     let buttonValue;
     switch (buttonContent) {
       case "Change":
@@ -77,7 +50,7 @@
 
     //arrow key active or not
     const arrowUp = index === 0 ? "disabled" : "";
-    const arrowDown = index >= (state.stocks.stockSymbolList.length - 1) ? "disabled" : "";
+    const arrowDown = index >= (model.getStockList().length - 1) ? "disabled" : "";
 
     return `
       <li data-item-number="${index + 1}" class="contentStrip stockItem">
@@ -114,20 +87,25 @@
   }
 
   //main render function for Stocklist page
-  function renderStocksApp(stockData) {
+  function renderStocksApp() {
     //datacontainer for all HTML to be rendered for stock list page
     let dataToRender = [];
 
     // render stocklist header
     dataToRender.push(renderStockListHeader());
 
+    //get stockdata from model
+    const stockData = model.getStockData();
+
     // render stocklist
-    dataToRender.push(renderStockListContainer(state.stocks.stockData));
+    dataToRender.push(renderStockListContainer(stockData));
 
     // append header to container
     let container = document.querySelector(".appContainer");
     container.innerHTML = dataToRender.join("");
   }
+
+
 
 
   // ------ Event Handlers -------
@@ -147,17 +125,7 @@
 
     if (target.dataset.buttonType === "toggleInfo") {
 
-      let currentState = state.ui.stockMode;
-      let amountModes = state.ui.stockViews.length;
-
-      //toggle to next mode
-      currentState = currentState + 1;
-
-      //if out of range reset to index 0
-      currentState = currentState >= amountModes ? 0 : currentState;
-
-      //update global state
-      state.ui.stockMode = currentState;
+      model.toggleStockView();
 
       //rerender page
       renderStocksApp();
@@ -176,15 +144,8 @@
       //Index to be switched
       const targetIndex = direction === 'up' ? (indexPressed - 1) : (indexPressed + 1);
 
-      // change Stock Symbol List using temp element
-      let tempDataHolder = state.stocks.stockSymbolList[indexPressed];
-      state.stocks.stockSymbolList[indexPressed] = state.stocks.stockSymbolList[targetIndex];
-      state.stocks.stockSymbolList[targetIndex] = tempDataHolder;
-
-      // change Stock Symbol List using temp element
-      let tempDataHolder2 = state.stocks.stockData[indexPressed];
-      state.stocks.stockData[indexPressed] = state.stocks.stockData[targetIndex];
-      state.stocks.stockData[targetIndex] = tempDataHolder2;
+      // adjust model state
+      model.adjustStockOrder(indexPressed, targetIndex);
 
       // rerender app
       renderStocksApp();
