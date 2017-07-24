@@ -8,66 +8,74 @@
   //initialize app namespace
   window.STOKR = window.STOKR || {};
 
-
   // import view and model
   const model = window.STOKR.model;
   const view = window.STOKR.view;
 
 
-  // ------ Event Handlers -------
-  function setupEvents() {
-    const mainContainer = document.querySelector("main.main");
+  function renderView(appView) {
+    const state = model.getState();
+    const stockData = state.stocks.stockData;
+    const uiState =  state.ui;
 
-    //add event listener for data toggle
-    mainContainer.addEventListener("click", eventToggleButtonInfoHandler);
+    switch (appView) {
+      case  'stockList':
+        //Initializes page with StockList
+        view.renderStocksApp(stockData, uiState);
 
-    // add event to arrows
-    mainContainer.addEventListener("click", changeStockOrderHandler);
-  }
+        break;
+      case 'stockSearch':
 
-  // event handler to toggle button content %, absolut market cap
-  function eventToggleButtonInfoHandler(event) {
-    const target = event.target;
+        break;
 
-    if (target.dataset.buttonType === "toggleInfo") {
-      view.toggleStockView();
-
-      //re-render page
-      view.renderStocksApp(model.getStockData());
+      default:
+        alert('View is not available');
     }
   }
 
-  // event to change stock order
-  function changeStockOrderHandler(event) {
-    const target = event.target;
+  function toggleStockView() {
+    const state = model.getState();
 
-    if (target.dataset.buttonType === "changePosition") {
-      // pressed index number
-      const indexPressed = target.dataset.itemNumber - 1;
-      //arrow pressed up or down
-      const direction = target.dataset.direction;
-      //Index to be switched
-      const targetIndex = direction === 'up' ? (indexPressed - 1) : (indexPressed + 1);
+    let currentState = state.ui.stockMode;
+    let amountModes = state.ui.stockViews.length;
 
-      // adjust model state
-      model.adjustStockOrder(indexPressed, targetIndex);
+    //toggle to next mode
+    currentState = currentState + 1;
 
-      // re-render app
-      view.renderStocksApp(model.getStockData());
-    }
+    //if out of range reset to index 0
+    currentState = currentState >= amountModes ? 0 : currentState;
+
+    //update global state
+    model.state.ui.stockMode = currentState;
+
+    renderView('stockList');
+  }
+
+  function adjustStockOrder(position1, position2) {
+    const state = model.getState();
+
+    // change Stock Symbol List using temp element
+    let tempDataHolder = state.stocks.stockSymbolList[position1];
+    model.state.stocks.stockSymbolList[position1] = state.stocks.stockSymbolList[position2];
+    model.state.stocks.stockSymbolList[position2] = tempDataHolder;
+
+    // change Stock Symbol List using temp element
+    let tempDataHolder2 = state.stocks.stockData[position1];
+    model.state.stocks.stockData[position1] = state.stocks.stockData[position2];
+    model.state.stocks.stockData[position2] = tempDataHolder2;
+
+    renderView('stockList');
   }
 
   function init() {
-    //get stockdata from model
-    const stockData = model.getStockData();
-
-    //Initializes page with StockList
-    view.renderStocksApp(stockData);
-
-    //add even listeners
-    setupEvents();
+    renderView('stockList');
   }
 
   init();
 
+  //data and methods to export
+  window.STOKR.controller = {
+    toggleStockView,
+    adjustStockOrder,
+  }
 })();

@@ -11,7 +11,8 @@
   //add state to model
   const state = {
     ui :{
-
+      stockMode: 1,
+      stockViews: ["PercentChange", "Change"]
     },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],
@@ -50,22 +51,15 @@
     return state.stocks.stockData;
   }
 
-  function adjustStockOrder(position1, position2) {
-    // change Stock Symbol List using temp element
-    let tempDataHolder = state.stocks.stockSymbolList[position1];
-    state.stocks.stockSymbolList[position1] = state.stocks.stockSymbolList[position2];
-    state.stocks.stockSymbolList[position2] = tempDataHolder;
-
-    // change Stock Symbol List using temp element
-    let tempDataHolder2 = state.stocks.stockData[position1];
-    state.stocks.stockData[position1] = state.stocks.stockData[position2];
-    state.stocks.stockData[position2] = tempDataHolder2;
+  function getState() {
+    return state;
   }
 
   //data and methods to export
   window.STOKR.model = {
+    state,
     getStockList,
     getStockData,
-    adjustStockOrder,
+    getState,
   };
 })();

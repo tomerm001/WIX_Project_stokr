@@ -8,14 +8,13 @@
   //initialize app namespace
   window.STOKR = window.STOKR || {};
 
+  //import controller
+  let cntr = window.STOKR.controller;
+
   // ==== PRIVATE
 
-  const state = {
-    ui: {
-      stockMode: 1,
-      stockViews: ["PercentChange", "Change"]
-    }
-  };
+
+  // --------- View ----------
 
   // HTML content to render Stockist Tool Bar
   function renderStockListHeader() {
@@ -62,12 +61,12 @@
   }
 
   // Render Specific Stock Item Line
-  function renderStockListItem(itemData, index, dataLength) {
+  function renderStockListItem(itemData, index, dataLength, uiState) {
     let {Name, LastTradePriceOnly} = itemData;
 
     //get UI stockmode from model
-    const stockMode = state.ui.stockMode;
-    const stockViews = state.ui.stockViews;
+    const stockMode = uiState.stockMode;
+    const stockViews = uiState.stockViews;
 
     //logic to decide what UI content should be included for the button
     const buttonContent = stockViews[stockMode];
@@ -111,17 +110,15 @@
   }
 
   //render stock list section
-  function renderStockList(data) {
-    const dataLength = data.length;
-
-    return data.map((item, index) => {
-      return renderStockListItem(item, index, dataLength)
+  function renderStockList(data, uiState) {
+    return data.map((item, index, arr) => {
+      return renderStockListItem(item, index, arr.length, uiState)
     });
   }
 
   //Render Stock list Container with Stocklist data
-  function renderStockListContainer(data) {
-    const renderedHTML = renderStockList(data).join("");
+  function renderStockListContainer(data, uiState) {
+    const renderedHTML = renderStockList(data, uiState).join("");
 
     return `
       <ul class="stockListContainer">
@@ -131,11 +128,53 @@
   }
 
 
+
+  // ------ Event Handlers -------
+  function setupEvents() {
+    const mainContainer = document.querySelector("main.main");
+
+    //add event listener for data toggle
+    mainContainer.addEventListener("click", eventToggleButtonInfoHandler);
+
+    // add event to arrows
+    mainContainer.addEventListener("click", changeStockOrderHandler);
+  }
+
+  // event handler to toggle button content %, absolut market cap
+  function eventToggleButtonInfoHandler(event) {
+    const target = event.target;
+
+    if (target.dataset.buttonType === "toggleInfo") {
+      let cntr = window.STOKR.controller;
+      cntr.toggleStockView();
+    }
+  }
+
+  // event to change stock order
+  function changeStockOrderHandler(event) {
+    const target = event.target;
+
+    if (target.dataset.buttonType === "changePosition") {
+      // pressed index number
+      const indexPressed = target.dataset.itemNumber - 1;
+      //arrow pressed up or down
+      const direction = target.dataset.direction;
+      //Index to be switched
+      const targetIndex = direction === 'up' ? (indexPressed - 1) : (indexPressed + 1);
+
+      // adjust model state
+      let cntr = window.STOKR.controller;
+      cntr.adjustStockOrder(indexPressed, targetIndex);
+    }
+  }
+
+
+
   // ==== PUBLIC
 
   //main render function for Stocklist page
-  function renderStocksApp(stockData) {
-    //datacontainer for all HTML to be rendered for stock list page
+  function renderStocksApp(stockData, uiState) {
+    //data container for all HTML to be rendered for stock list page
     let dataToRender = [];
 
     // render stocklist header
@@ -145,31 +184,19 @@
     dataToRender.push(renderStockListFilter());
 
     // render stocklist
-    dataToRender.push(renderStockListContainer(stockData));
+    dataToRender.push(renderStockListContainer(stockData, uiState));
 
     // append header to container
     let container = document.querySelector(".appContainer");
     container.innerHTML = dataToRender.join("");
-  }
 
-  function toggleStockView() {
-    let currentState = state.ui.stockMode;
-    let amountModes = state.ui.stockViews.length;
-
-    //toggle to next mode
-    currentState = currentState + 1;
-
-    //if out of range reset to index 0
-    currentState = currentState >= amountModes ? 0 : currentState;
-
-    //update global state
-    state.ui.stockMode = currentState;
+    //add all events
+    setupEvents();
   }
 
 
   // data and methods to export
   window.STOKR.view = {
     renderStocksApp,
-    toggleStockView,
   }
 })();
