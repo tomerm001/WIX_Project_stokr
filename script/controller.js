@@ -16,7 +16,7 @@
   function renderView(appView) {
     const state = model.getState();
     const stockData = state.stocks.stockData;
-    const uiState =  state.ui;
+    const uiState = state.ui;
 
     switch (appView) {
       case  'stockList':
@@ -71,10 +71,10 @@
     const arrowState = model.getUiState().stockArrowsBtn;
 
     //toggle state between false and true
-    model.state.ui.stockArrowsBtn  = !arrowState;
+    model.state.ui.stockArrowsBtn = !arrowState;
   }
 
-  function toggleStockFilter(){
+  function toggleStockFilter() {
     const filterState = model.getUiState().stockFilter;
 
     //toggle state between false and true
@@ -90,7 +90,7 @@
     // update filter state with data
     model.state.filter = filterSettings;
 
-    const { companyName, companyGain, rangeFrom, rangeTo } = model.getFilterSettings();
+    const {companyName, companyGain, rangeFrom, rangeTo} = model.getFilterSettings();
     const stockData = model.getStockData();
     const filteredData = [];
 
@@ -100,14 +100,14 @@
       console.log(item);
 
       // check name in name and symbol
-      if(!item.Name.toLowerCase().includes(companyName.toLowerCase()) && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())){
+      if (!item.Name.toLowerCase().includes(companyName.toLowerCase()) && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
         console.log(item.Name.includes(companyName));
 
         include = false;
         console.log('entered name');
       }
 
-      if(parseFloat(item.PercentChange) <= rangeFrom){
+      if (parseFloat(item.PercentChange) <= rangeFrom) {
         include = false;
         console.log('rangeFrom');
       }
@@ -125,7 +125,7 @@
       // }
 
       //if not false add element to new filtered array
-      if(include) {
+      if (include) {
         filteredData.push(item);
       }
     });
@@ -134,10 +134,29 @@
 
   }
 
+  function fetchStocksAndSetState() {
+    // function then(fncResolve, fncReject) {
+    //   const result = fncResolve();
+    //   if(result ===== 'Promise')
+    //     return result;
+    //   else {
+    //     return Promise.resolve(result);
+    //   }
+    // }
+
+    return Promise.resolve(fetch('./mocks/stocks.json')
+      .then(res => res.json())
+      .then(data => model.state.stocks.stockData = data));
+  }
 
 
   function init() {
+    //initial render (empty)
     renderView('stockList');
+
+    //fetch data and rerender
+    fetchStocksAndSetState()
+      .then(() => renderView('stockList'));
   }
 
   init();
