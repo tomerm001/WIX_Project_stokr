@@ -14,8 +14,14 @@
       stockMode: 1,
       stockViews: ["PercentChange", "Change"],
       stockFilter: true,
-      stockArrowsBtn: true,
+      stockArrowsBtn: false,
       stockDeleteBtn: false,
+    },
+    filter: {
+      name: null,
+      gain: null,
+      from: null,
+      to: null,
     },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],

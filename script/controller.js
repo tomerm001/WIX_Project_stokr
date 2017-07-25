@@ -86,6 +86,10 @@
     renderView('stockList');
   }
 
+
+
+
+
   function init() {
     renderView('stockList');
   }
