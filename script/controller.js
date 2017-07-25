@@ -67,6 +67,25 @@
     renderView('stockList');
   }
 
+  function toggleStockArrows() {
+    const arrowState = model.getUiState().stockArrowsBtn;
+
+    //toggle state between false and true
+    model.state.ui.stockArrowsBtn  = !arrowState;
+  }
+
+  function toggleStockFilter(){
+    const filterState = model.getUiState().stockFilter;
+
+    //toggle state between false and true
+    model.state.ui.stockFilter = !filterState;
+
+    // toggle stock arrows
+    toggleStockArrows();
+
+    renderView('stockList');
+  }
+
   function init() {
     renderView('stockList');
   }
@@ -77,5 +96,6 @@
   window.STOKR.controller = {
     toggleStockView,
     adjustStockOrder,
+    toggleStockFilter,
   }
 })();

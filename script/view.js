@@ -22,10 +22,10 @@
     <header class="contentStrip">
         <h1>STOKR</h1>
         <div class="buttonContainer">
-          <button class="headerButton icon-search"></button>
-          <button class="headerButton icon-refresh"></button>
-          <button class="headerButton icon-filter"></button>
-          <button class="headerButton icon-settings"></button>
+          <button data-button-type="search" class="headerButton icon-search"></button>
+          <button data-button-type="refresh" class="headerButton icon-refresh"></button>
+          <button data-button-type="filter" class="headerButton icon-filter"></button>
+          <button data-button-type="settings" class="headerButton icon-settings"></button>
         </div>
     </header>`
   }
@@ -67,6 +67,8 @@
     //get UI stockmode from model
     const stockMode = uiState.stockMode;
     const stockViews = uiState.stockViews;
+    const stockArrowsBtn = uiState.stockArrowsBtn;
+    const stockDeleteBtm = uiState.stockDeleteBtn;
 
     //logic to decide what UI content should be included for the button
     const buttonContent = stockViews[stockMode];
@@ -92,6 +94,7 @@
     //arrow key active or not
     const arrowUp = index === 0 ? "disabled" : "";
     const arrowDown = index >= (dataLength - 1) ? "disabled" : "";
+    const arrowsVisibility = stockArrowsBtn ? "" : "not-visible";
 
     return `
       <li data-item-number="${index + 1}" class="contentStrip stockItem">
@@ -99,7 +102,7 @@
         <div class="stockItemRight">
            <span class="stockPrice">${roundedLastTradePriceOnly}</span>
            <button data-button-type="toggleInfo" class="stockButton ${priceDirection}">${buttonValue}</button>
-           <div class="stockButtonContainer">
+           <div class="stockButtonContainer ${arrowsVisibility}">
              <button data-button-type="changePosition" data-direction="up" data-item-number="${index + 1}" 
              class="stockButtonArrow stockUpButton icon-arrow" ${arrowUp} ></button>
              <button data-button-type="changePosition" data-direction="down" data-item-number="${index + 1}" class="stockButtonArrow stockDownButton icon-arrow" ${arrowDown}></button>
@@ -130,6 +133,7 @@
 
 
   // ------ Event Handlers -------
+
   function setupEvents() {
     const mainContainer = document.querySelector("main.main");
 
@@ -138,6 +142,10 @@
 
     // add event to arrows
     mainContainer.addEventListener("click", changeStockOrderHandler);
+
+    //add events for filter button
+    mainContainer.addEventListener("click", toggleFilterHandler);
+
   }
 
   // event handler to toggle button content %, absolut market cap
@@ -168,6 +176,16 @@
     }
   }
 
+  //event handler for filter button
+  function toggleFilterHandler(event) {
+    const target = event.target;
+
+    if(target.dataset.buttonType === 'filter') {
+      //import controller
+      const cntr = window.STOKR.controller;
+      cntr.toggleStockFilter();
+    }
+  }
 
 
   // ==== PUBLIC
@@ -181,7 +199,9 @@
     dataToRender.push(renderStockListHeader());
 
     //render filter
-    dataToRender.push(renderStockListFilter());
+    if(uiState.stockFilter) {
+      dataToRender.push(renderStockListFilter());
+    }
 
     // render stocklist
     dataToRender.push(renderStockListContainer(stockData, uiState));

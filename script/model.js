@@ -12,7 +12,10 @@
   const state = {
     ui :{
       stockMode: 1,
-      stockViews: ["PercentChange", "Change"]
+      stockViews: ["PercentChange", "Change"],
+      stockFilter: true,
+      stockArrowsBtn: true,
+      stockDeleteBtn: false,
     },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],
@@ -55,11 +58,16 @@
     return state;
   }
 
+  function getUiState() {
+    return state.ui;
+  }
+
   //data and methods to export
   window.STOKR.model = {
     state,
     getStockList,
     getStockData,
     getState,
+    getUiState,
   };
 })();
