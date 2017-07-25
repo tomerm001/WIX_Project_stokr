@@ -18,10 +18,10 @@
       stockDeleteBtn: false,
     },
     filter: {
-      name: null,
-      gain: null,
-      from: null,
-      to: null,
+      companyName: null,
+      companyGain: null,
+      rangeFrom: null,
+      rangeTo: null,
     },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],
@@ -68,6 +68,10 @@
     return state.ui;
   }
 
+  function getFilterSettings() {
+    return state.filter;
+  }
+
   //data and methods to export
   window.STOKR.model = {
     state,
@@ -75,5 +79,6 @@
     getStockData,
     getState,
     getUiState,
+    getFilterSettings,
   };
 })();

@@ -61,7 +61,7 @@
               </div>
             </div>
           </div>
-          <button class="filter-apply-button">Apply</button>
+          <button data-button-type="filterApply" class="filter-apply-button">Apply</button>
         </form>`
   }
 
@@ -151,6 +151,10 @@
     //add events for filter button
     mainContainer.addEventListener("click", toggleFilterHandler);
 
+    //add events for flter apply
+    mainContainer.addEventListener("click", applyFilterHandler);
+
+
   }
 
   // event handler to toggle button content %, absolut market cap
@@ -189,6 +193,25 @@
       //import controller
       const cntr = window.STOKR.controller;
       cntr.toggleStockFilter();
+    }
+  }
+
+  function applyFilterHandler(event) {
+    event.preventDefault();
+    const target = event.target;
+
+    if(target.dataset.buttonType === 'filterApply') {
+      // get all data from filter form
+      const dataDom = document.querySelectorAll(".filter-form input");
+      const filterData = { };
+
+      dataDom.forEach((item) => {
+        filterData[item.name] = item.value === "" ? null : item.value;
+      });
+
+      //import controller
+      const cntr = window.STOKR.controller;
+      cntr.applyFilter(filterData);
     }
   }
 

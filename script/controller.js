@@ -86,7 +86,53 @@
     renderView('stockList');
   }
 
+  function applyFilter(filterSettings) {
+    // update filter state with data
+    model.state.filter = filterSettings;
 
+    const { companyName, companyGain, rangeFrom, rangeTo } = model.getFilterSettings();
+    const stockData = model.getStockData();
+    const filteredData = [];
+
+
+    stockData.forEach((item) => {
+      let include = true;
+      console.log(item);
+
+      // check name in name and symbol
+      if(!item.Name.toLowerCase().includes(companyName.toLowerCase()) && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())){
+        console.log(item.Name.includes(companyName));
+
+        include = false;
+        console.log('entered name');
+      }
+
+      if(parseFloat(item.PercentChange) <= rangeFrom){
+        include = false;
+        console.log('rangeFrom');
+      }
+      // if(parseFloat(item.PercentChange) >= rangeTo){
+      //   include = false;
+      //   console.log('rangeto');
+      // }
+      // if(companyGain === 'Gaining' && parseFloat(item.PercentChange) < 0) {
+      //   include= false;
+      //   console.log('gaining');
+      // }
+      // if(companyGain === 'Losing' && parseFloat(item.PercentChange) > 0) {
+      //   include= false;
+      //   console.log('losing');
+      // }
+
+      //if not false add element to new filtered array
+      if(include) {
+        filteredData.push(item);
+      }
+    });
+
+    console.log(filteredData);
+
+  }
 
 
 
@@ -101,5 +147,6 @@
     toggleStockView,
     adjustStockOrder,
     toggleStockFilter,
+    applyFilter
   }
 })();
