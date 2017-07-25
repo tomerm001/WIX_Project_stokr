@@ -24,8 +24,8 @@
         view.renderStocksApp(stockData, uiState);
 
         break;
-      case 'stockSearch':
-
+      case 'stocksearch':
+        view.renderSearchApp(null, null);
         break;
 
       default:
@@ -166,6 +166,7 @@
     toggleStockView,
     adjustStockOrder,
     toggleStockFilter,
-    applyFilter
+    applyFilter,
+    renderView,
   }
 })();

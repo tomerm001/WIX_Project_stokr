@@ -22,7 +22,7 @@
     <header class="contentStrip">
         <h1>STOKR</h1>
         <div class="buttonContainer">
-          <a href="#search" data-button-type="search" class="headerButton icon-search"></a>
+          <a href="#stocksearch" data-button-type="search" class="headerButton icon-search"></a>
           <button data-button-type="refresh" class="headerButton icon-refresh"></button>
           <button data-button-type="filter" class="headerButton icon-filter"></button>
           <button data-button-type="settings" class="headerButton icon-settings"></button>
@@ -154,6 +154,8 @@
     //add events for flter apply
     mainContainer.addEventListener("click", applyFilterHandler);
 
+    //add hashchange handler
+    window.addEventListener('hashchange', hashChangeHandler);
 
   }
 
@@ -217,6 +219,15 @@
     }
   }
 
+  function hashChangeHandler(event) {
+    const view = window.location.hash.slice(1);
+
+    //import controller
+    const cntr = window.STOKR.controller;
+    cntr.renderView(view);
+
+  }
+
 
   // ==== PUBLIC
 
@@ -244,9 +255,29 @@
     setupEvents();
   }
 
+  //main render function for search page
+  function renderSearchApp(stockData, uiState) {
+    //data container for all HTML to be rendered for stock list page
+    let dataToRender = [];
+
+    // render stocklist header
+    // dataToRender.push(renderStockListHeader());
+
+
+    // append header to container
+    let container = document.querySelector(".appContainer");
+    container.innerHTML = dataToRender.join("");
+
+    //add all events
+    setupEvents();
+  }
+
+
+
 
   // data and methods to export
   window.STOKR.view = {
     renderStocksApp,
+    renderSearchApp,
   }
 })();
