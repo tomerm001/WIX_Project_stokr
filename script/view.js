@@ -42,7 +42,12 @@
               </div>
               <div class="input-container">
                 <label for="gain">By Gain</label>
-                <input type="number" id="gain" name="companyGain">
+                <input list="gainList" id="gain" name="companyGain">
+                <datalist id="gainList">
+                  <option>All</option>
+                  <option>Losing</option>
+                  <option>Gaining</option>
+                </datalist>
               </div>
             </div>
             <div class="inputs-container-section section-right">
