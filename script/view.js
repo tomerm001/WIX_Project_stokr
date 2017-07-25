@@ -22,7 +22,7 @@
     <header class="contentStrip">
         <h1>STOKR</h1>
         <div class="buttonContainer">
-          <button data-button-type="search" class="headerButton icon-search"></button>
+          <a href="#search" data-button-type="search" class="headerButton icon-search"></a>
           <button data-button-type="refresh" class="headerButton icon-refresh"></button>
           <button data-button-type="filter" class="headerButton icon-filter"></button>
           <button data-button-type="settings" class="headerButton icon-settings"></button>
