@@ -197,10 +197,12 @@
   }
 
   function applyFilterHandler(event) {
-    event.preventDefault();
     const target = event.target;
 
     if(target.dataset.buttonType === 'filterApply') {
+
+      event.preventDefault();
+
       // get all data from filter form
       const dataDom = document.querySelectorAll(".filter-form input");
       const filterData = { };
