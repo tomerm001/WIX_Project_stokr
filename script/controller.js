@@ -15,13 +15,19 @@
 
   function renderView(appView) {
     const state = model.getState();
-    const stockData = state.stocks.stockData;
+    let stockData = state.stocks.stockData;
     const uiState = state.ui;
+    const filter = state.filter;
 
     switch (appView) {
       case  'stockList':
+        //check if filter on or off
+        if(model.getFilterMode()) {
+          stockData = applyFilter(stockData);
+        }
+
         //Initializes page with StockList
-        view.renderStocksApp(stockData, uiState);
+        view.renderStocksApp(stockData, uiState, filter);
 
         break;
       case 'stocksearch':
@@ -86,21 +92,25 @@
     renderView('stockList');
   }
 
-  function applyFilter(filterSettings) {
+  function updateFilterState(filterSettings) {
     // update filter state with data
     model.state.filter = filterSettings;
 
-    const {companyName, companyGain, rangeFrom, rangeTo} = model.getFilterSettings();
-    const stockData = model.getStockData();
-    const filteredData = [];
+    renderView('stockList');
+  }
 
+  function applyFilter(stockData) {
+    //get filter state from model
+    const {companyName, companyGain, rangeFrom, rangeTo} = model.getFilterSettings();
+    // const stockData = model.getStockData();
+    const filteredData = [];
 
     stockData.forEach((item) => {
       let include = true;
-      // console.log(item);
+      console.log(item);
 
       // check name in name and symbol
-      if ( companyName !== null
+      if ( companyName !== ''
             && !item.Name.toLowerCase().includes(companyName.toLowerCase())
             && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
         // console.log(item.Name.includes(companyName));
@@ -109,22 +119,20 @@
         // console.log('entered name');
       }
 
-      if ( (rangeFrom !== null) && parseFloat(item.realtime_chg_percent) <= rangeFrom) {
+      if ( (rangeFrom !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) <= rangeFrom) {
         include = false;
         // console.log('rangeFrom');
       }
-      if( (rangeTo !== null) && parseFloat(item.realtime_chg_percent) >= rangeTo){
+      if( (rangeTo !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) >= rangeTo){
         include = false;
         console.log('rangeto');
       }
-      if ( companyGain !== null) {
+      if ( companyGain !== '') {
         if (companyGain === 'Gaining' && parseFloat(item.realtime_chg_percent) < 0) {
           include = false;
-          console.log('gaining');
         }
         if(companyGain === 'Losing' && parseFloat(item.realtime_chg_percent) > 0) {
           include= false;
-          console.log('losing');
         }
 
       }
@@ -134,8 +142,7 @@
       }
     });
 
-    console.log(filteredData);
-
+    return filteredData;
   }
 
   function fetchStocksAndSetState(source) {
@@ -167,7 +174,7 @@
     renderView('stockList');
 
     //fetch data and rerender
-    fetchStocksAndSetState('local')
+    fetchStocksAndSetState('server')
       .then(() => renderView('stockList'));
   }
 
@@ -180,5 +187,6 @@
     toggleStockFilter,
     applyFilter,
     renderView,
+    updateFilterState
   }
 })();

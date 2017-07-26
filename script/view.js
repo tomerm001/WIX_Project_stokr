@@ -31,18 +31,23 @@
   }
 
   // HTML content to render filter form
-  function renderStockListFilter() {
+  function renderStockListFilter(filter) {
+    //get filter data
+    debugger;
+    const {companyName, companyGain, rangeFrom, rangeTo} = filter;
+    debugger;
+
     return `
       <form class="contentStrip filter-form">
           <div class="inputs-container">
             <div class="inputs-container-section section-left">
               <div class="input-container">
                 <label for="name">By Name</label>
-                <input type="text" id="name" name="companyName">
+                <input type="text" id="name" name="companyName" value="${companyName}">
               </div>
               <div class="input-container">
                 <label for="gain">By Gain</label>
-                <input list="gainList" id="gain" name="companyGain">
+                <input list="gainList" id="gain" name="companyGain" value="${companyGain}">
                 <datalist id="gainList">
                   <option>All</option>
                   <option>Losing</option>
@@ -53,11 +58,11 @@
             <div class="inputs-container-section section-right">
               <div class="input-container">
                 <label for="range-from">By Range: From</label>
-                <input type="number" id="range-from" name="rangeFrom">
+                <input type="number" id="range-from" name="rangeFrom" value="${rangeFrom}">
               </div>
               <div class="input-container">
                 <label for="range-to">By Range: to</label>
-                <input type="number" id="range-to" name=rangeTo>
+                <input type="number" id="range-to" name="rangeTo" value="${rangeTo}">
               </div>
             </div>
           </div>
@@ -213,12 +218,12 @@
       const filterData = { };
 
       dataDom.forEach((item) => {
-        filterData[item.name] = item.value === "" ? null : item.value;
+        filterData[item.name] = item.value.trim();
       });
 
       //import controller
       const cntr = window.STOKR.controller;
-      cntr.applyFilter(filterData);
+      cntr.updateFilterState(filterData);
     }
   }
 
@@ -235,7 +240,7 @@
   // ==== PUBLIC
 
   //main render function for Stocklist page
-  function renderStocksApp(stockData, uiState) {
+  function renderStocksApp(stockData, uiState, filter) {
     //data container for all HTML to be rendered for stock list page
     let dataToRender = [];
 
@@ -244,7 +249,7 @@
 
     //render filter
     if(uiState.stockFilter) {
-      dataToRender.push(renderStockListFilter());
+      dataToRender.push(renderStockListFilter(filter));
     }
 
     // render stocklist
@@ -274,8 +279,6 @@
     //add all events
     setupEvents();
   }
-
-
 
 
   // data and methods to export

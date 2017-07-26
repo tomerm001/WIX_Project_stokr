@@ -18,13 +18,13 @@
       stockDeleteBtn: false,
     },
     filter: {
-      companyName: null,
-      companyGain: null,
-      rangeFrom: null,
-      rangeTo: null,
+      companyName: '',
+      companyGain: '',
+      rangeFrom: '',
+      rangeTo: '',
     },
     stocks: {
-      stockSymbolList: ["WIX", "MSFT", "YHOO"],
+      stockSymbolList: ["WIX", "MSFT", "AAPL, EBAY"],
       stockData: []
     }
   };
@@ -46,6 +46,10 @@
     return state.ui;
   }
 
+  function getFilterMode(){
+    return state.ui.stockFilter;
+  }
+
   function getFilterSettings() {
     return state.filter;
   }
@@ -58,5 +62,6 @@
     getState,
     getUiState,
     getFilterSettings,
+    getFilterMode
   };
 })();
