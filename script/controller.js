@@ -97,33 +97,37 @@
 
     stockData.forEach((item) => {
       let include = true;
-      console.log(item);
+      // console.log(item);
 
       // check name in name and symbol
-      if (!item.Name.toLowerCase().includes(companyName.toLowerCase()) && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
-        console.log(item.Name.includes(companyName));
+      if ( companyName !== null
+            && !item.Name.toLowerCase().includes(companyName.toLowerCase())
+            && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
+        // console.log(item.Name.includes(companyName));
 
         include = false;
-        console.log('entered name');
+        // console.log('entered name');
       }
 
-      if (parseFloat(item.PercentChange) <= rangeFrom) {
+      if ( (rangeFrom !== null) && parseFloat(item.PercentChange) <= rangeFrom) {
         include = false;
-        console.log('rangeFrom');
+        // console.log('rangeFrom');
       }
-      // if(parseFloat(item.PercentChange) >= rangeTo){
-      //   include = false;
-      //   console.log('rangeto');
-      // }
-      // if(companyGain === 'Gaining' && parseFloat(item.PercentChange) < 0) {
-      //   include= false;
-      //   console.log('gaining');
-      // }
-      // if(companyGain === 'Losing' && parseFloat(item.PercentChange) > 0) {
-      //   include= false;
-      //   console.log('losing');
-      // }
+      if( (rangeTo !== null) && parseFloat(item.PercentChange) >= rangeTo){
+        include = false;
+        console.log('rangeto');
+      }
+      if ( companyGain !== null) {
+        if (companyGain === 'Gaining' && parseFloat(item.PercentChange) < 0) {
+          include = false;
+          console.log('gaining');
+        }
+        if(companyGain === 'Losing' && parseFloat(item.PercentChange) > 0) {
+          include= false;
+          console.log('losing');
+        }
 
+      }
       //if not false add element to new filtered array
       if (include) {
         filteredData.push(item);
@@ -134,19 +138,27 @@
 
   }
 
-  function fetchStocksAndSetState() {
-    // function then(fncResolve, fncReject) {
-    //   const result = fncResolve();
-    //   if(result ===== 'Promise')
-    //     return result;
-    //   else {
-    //     return Promise.resolve(result);
-    //   }
-    // }
+  function fetchStocksAndSetState(source) {
 
-    return Promise.resolve(fetch('./mocks/stocks.json')
-      .then(res => res.json())
-      .then(data => model.state.stocks.stockData = data));
+    //fetch data from server or from local json file
+    if(source === 'server') {
+      const stockList = model.getStockList();
+      const serverUrl = 'http://localhost:7000';
+      const httpRequest = `${serverUrl}/quotes?q=${stockList}`;
+
+      //fetch stock from server
+      return Promise.resolve(fetch(httpRequest)
+        .then(res => res.json())
+        .then(data => model.state.stocks.stockData = data.query.results.quote)
+      )
+    } else if (source === 'local') {
+
+      //fetch data from local json
+      return Promise.resolve(fetch('./mocks/stocks.json')
+        .then(res => res.json())
+        .then(data => model.state.stocks.stockData = data)
+      );
+    }
   }
 
 
@@ -155,7 +167,7 @@
     renderView('stockList');
 
     //fetch data and rerender
-    fetchStocksAndSetState()
+    fetchStocksAndSetState('server')
       .then(() => renderView('stockList'));
   }
 

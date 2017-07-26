@@ -25,9 +25,7 @@
     },
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "YHOO"],
-      stockData: [
-
-      ]
+      stockData: []
     }
   };
 
