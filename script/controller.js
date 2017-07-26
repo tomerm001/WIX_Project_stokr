@@ -52,23 +52,23 @@
     currentState = currentState >= amountModes ? 0 : currentState;
 
     //update global state
-    model.state.ui.stockMode = currentState;
+    model.setUiStockMode(currentState);
 
     renderView('stockList');
   }
 
   function adjustStockOrder(position1, position2) {
-    const state = model.getState();
+    const stocks = model.getStocks();
 
     // change Stock Symbol List using temp element
-    let tempDataHolder = state.stocks.stockSymbolList[position1];
-    model.state.stocks.stockSymbolList[position1] = state.stocks.stockSymbolList[position2];
-    model.state.stocks.stockSymbolList[position2] = tempDataHolder;
+    let tempDataHolder = stocks.stockSymbolList[position1];
+    model.setStockSymbolList(position1, stocks.stockSymbolList[position2] );
+    model.setStockSymbolList(position2, tempDataHolder);
 
     // change Stock Symbol List using temp element
-    let tempDataHolder2 = state.stocks.stockData[position1];
-    model.state.stocks.stockData[position1] = state.stocks.stockData[position2];
-    model.state.stocks.stockData[position2] = tempDataHolder2;
+    let tempDataHolder2 = stocks.stockData[position1];
+    model.setStockDataItem(position1, stocks.stockData[position2]);
+    model.setStockDataItem(position2, tempDataHolder2);
 
     renderView('stockList');
   }
@@ -77,14 +77,14 @@
     const arrowState = model.getUiState().stockArrowsBtn;
 
     //toggle state between false and true
-    model.state.ui.stockArrowsBtn = !arrowState;
+    model.setUiStockArrowsMode(!arrowState);
   }
 
   function toggleStockFilter() {
     const filterState = model.getUiState().stockFilter;
 
     //toggle state between false and true
-    model.state.ui.stockFilter = !filterState;
+    model.setFilterMode(!filterState);
 
     // toggle stock arrows
     toggleStockArrows();
@@ -94,7 +94,7 @@
 
   function updateFilterState(filterSettings) {
     // update filter state with data
-    model.state.filter = filterSettings;
+    model.setFilterSettings(filterSettings);
 
     renderView('stockList');
   }
@@ -107,25 +107,19 @@
 
     stockData.forEach((item) => {
       let include = true;
-      console.log(item);
 
       // check name in name and symbol
       if ( companyName !== ''
             && !item.Name.toLowerCase().includes(companyName.toLowerCase())
             && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
-        // console.log(item.Name.includes(companyName));
 
         include = false;
-        // console.log('entered name');
       }
-
       if ( (rangeFrom !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) <= rangeFrom) {
         include = false;
-        // console.log('rangeFrom');
       }
       if( (rangeTo !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) >= rangeTo){
         include = false;
-        console.log('rangeto');
       }
       if ( companyGain !== '') {
         if (companyGain === 'Gaining' && parseFloat(item.realtime_chg_percent) < 0) {
@@ -149,27 +143,34 @@
 
     //fetch data from server or from local json file
     if(source === 'server') {
-      const stockList = model.getStockList();
+      const stockList = model.getStockSymbolList();
       const serverUrl = 'http://localhost:7000';
       const httpRequest = `${serverUrl}/quotes?q=${stockList}`;
 
       //fetch stock from server
       return Promise.resolve(fetch(httpRequest)
         .then(res => res.json())
-        .then(data => model.state.stocks.stockData = data.query.results.quote)
+        .then(data => model.setStockData(data.query.results.quote))
       )
     } else if (source === 'local') {
 
       //fetch data from local json
       return Promise.resolve(fetch('./mocks/stocks.json')
         .then(res => res.json())
-        .then(data => model.state.stocks.stockData = data)
+        .then(data => model.setStockData(data))
       );
     }
   }
 
+  function saveStateToLocalStorage() {
+    //function to save local
+    console.log('state changed');
+  }
 
   function init() {
+    //add listeners to model
+    model.addListener(saveStateToLocalStorage);
+
     //initial render (empty)
     renderView('stockList');
 

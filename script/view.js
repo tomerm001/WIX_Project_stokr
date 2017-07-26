@@ -33,9 +33,7 @@
   // HTML content to render filter form
   function renderStockListFilter(filter) {
     //get filter data
-    debugger;
     const {companyName, companyGain, rangeFrom, rangeTo} = filter;
-    debugger;
 
     return `
       <form class="contentStrip filter-form">
@@ -72,7 +70,7 @@
 
   // Render Specific Stock Item Line
   function renderStockListItem(itemData, index, dataLength, uiState) {
-    let {Name, LastTradePriceOnly} = itemData;
+    let {Name, LastTradePriceOnly, Change} = itemData;
 
     //get UI stockmode from model
     const stockMode = uiState.stockMode;
@@ -98,7 +96,7 @@
     }
 
     // add positive CSS class in case % is positive
-    const priceDirectParse = parseFloat(buttonValue);
+    const priceDirectParse = parseFloat(Change);
     const priceDirection = priceDirectParse >= 0 ? "positive" : "";
 
     // round stock price to two digits
