@@ -12,7 +12,7 @@
   const state = {
     ui :{
       stockMode: 1,
-      stockViews: ["PercentChange", "Change"],
+      stockViews: ["realtime_chg_percent", "Change", "MarketCapitalization"],
       stockFilter: true,
       stockArrowsBtn: false,
       stockDeleteBtn: false,

@@ -109,20 +109,20 @@
         // console.log('entered name');
       }
 
-      if ( (rangeFrom !== null) && parseFloat(item.PercentChange) <= rangeFrom) {
+      if ( (rangeFrom !== null) && parseFloat(item.realtime_chg_percent) <= rangeFrom) {
         include = false;
         // console.log('rangeFrom');
       }
-      if( (rangeTo !== null) && parseFloat(item.PercentChange) >= rangeTo){
+      if( (rangeTo !== null) && parseFloat(item.realtime_chg_percent) >= rangeTo){
         include = false;
         console.log('rangeto');
       }
       if ( companyGain !== null) {
-        if (companyGain === 'Gaining' && parseFloat(item.PercentChange) < 0) {
+        if (companyGain === 'Gaining' && parseFloat(item.realtime_chg_percent) < 0) {
           include = false;
           console.log('gaining');
         }
-        if(companyGain === 'Losing' && parseFloat(item.PercentChange) > 0) {
+        if(companyGain === 'Losing' && parseFloat(item.realtime_chg_percent) > 0) {
           include= false;
           console.log('losing');
         }
@@ -167,7 +167,7 @@
     renderView('stockList');
 
     //fetch data and rerender
-    fetchStocksAndSetState('server')
+    fetchStocksAndSetState('local')
       .then(() => renderView('stockList'));
   }
 

@@ -73,7 +73,7 @@
     const stockMode = uiState.stockMode;
     const stockViews = uiState.stockViews;
     const stockArrowsBtn = uiState.stockArrowsBtn;
-    const stockDeleteBtm = uiState.stockDeleteBtn;
+    // const stockDeleteBtm = uiState.stockDeleteBtn;
 
     //logic to decide what UI content should be included for the button
     const buttonContent = stockViews[stockMode];
@@ -82,14 +82,17 @@
       case "Change":
         buttonValue = parseFloat(itemData[buttonContent]).toFixed(2);
         break;
-      case "PercentChange":
-        buttonValue = itemData[buttonContent];
+      case "realtime_chg_percent":
+        buttonValue = `${(parseFloat(itemData[buttonContent]).toFixed(2))}%`;
+        break;
+      case 'MarketCapitalization':
+        buttonValue = `${parseFloat(itemData[buttonContent]).toFixed(1)}B`;
         break;
       default:
         buttonValue = itemData[buttonContent];
     }
 
-    // add positive css class in case % is positive
+    // add positive CSS class in case % is positive
     const priceDirectParse = parseFloat(buttonValue);
     const priceDirection = priceDirectParse >= 0 ? "positive" : "";
 
