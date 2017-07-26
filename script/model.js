@@ -11,7 +11,7 @@
   const listeners = [];
 
   //add state to model
-  const state = {
+  let state = {
     ui :{
       stockMode: 1,
       stockViews: ["realtime_chg_percent", "Change", "MarketCapitalization"],
@@ -69,6 +69,10 @@
     notifyModelChanged();
   }
 
+  function setState(newState) {
+    state = newState
+  }
+
   function setStockSymbolList(index, data) {
     state.stocks.stockSymbolList[index] = data;
     notifyModelChanged();
@@ -122,6 +126,7 @@
     setUiStockArrowsMode,
     setFilterMode,
     setFilterSettings,
-    setStockData
+    setStockData,
+    setState
   };
 })();

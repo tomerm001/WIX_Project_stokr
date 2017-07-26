@@ -164,12 +164,24 @@
 
   function saveStateToLocalStorage() {
     //function to save local
-    console.log('state changed');
+    localStorage.setItem('stokr-state', JSON.stringify(model.getState()));
+    console.log('local updated');
+  }
+
+  function loadStateFromLocalStorage() {
+    const stateFromStorage = localStorage.getItem('stokr-state');
+
+    if(stateFromStorage){
+      model.setState(JSON.parse(stateFromStorage));
+    }
   }
 
   function init() {
     //add listeners to model
     model.addListener(saveStateToLocalStorage);
+
+    //load from local storage
+    loadStateFromLocalStorage();
 
     //initial render (empty)
     renderView('stockList');
