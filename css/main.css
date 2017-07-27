@@ -262,8 +262,8 @@ button:focus {
 
 /* ------ SEARCH ------ */
 .searchApp-container .search-container {
-  display: flex;
-  vertical-align: middle;
+  /*display: flex;*/
+  /*vertical-align: middle;*/
   position: relative;
 }
 
@@ -302,8 +302,6 @@ button:focus {
 }
 
 .searchApp-container .search-items-container {
-  display: flex;
-  width: 100%;
 }
 
 .searchApp-container .search-item {

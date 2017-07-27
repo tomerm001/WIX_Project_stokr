@@ -14,7 +14,7 @@
   // ==== PRIVATE
 
 
-  // --------- View ----------
+  // --------- View StockList ----------
 
   // HTML content to render Stockist Tool Bar
   function renderStockListHeader() {
@@ -142,8 +142,56 @@
   }
 
 
+  // --------- View Search ----------
 
-  // ------ Event Handlers -------
+  // HTML content to render Stockist Tool Bar
+  function renderSearchHeader() {
+    return `
+    <header class="contentStrip search-container">
+      <input class="search-input">
+      <a href="#" class="search-cancel">Cancel</a>
+     </header>`
+  }
+
+  // Render Specific Stock Item Line
+  function renderSearchItem(itemData, index, dataLength, uiState) {
+    let {} = itemData;
+
+    //get UI stockmode from model
+
+    return `
+      <li class="contentStrip search-item">
+        <div class="search-item-text">
+          <span class="company-name">Ferarri</span>
+          <span class="exchange-name">Nasdaq</span>
+        </div>
+        <button class="add-button">+</button>    
+      </li>
+    `
+  }
+
+  //render stock list section
+  function renderSearchList(data, uiState) {
+    return data.map((item, index, arr) => {
+      return renderSearchItem(item, index, arr.length, uiState)
+    });
+  }
+
+  //Render Stock list Container with Stocklist data
+  function renderSearchContainer(data, uiState) {
+    const renderedHTML = renderSearchList(data, uiState).join("");
+
+    return `
+      <ul class="stockListContainer search-items-container">
+         ${renderedHTML}
+      </ul>
+    `
+  }
+
+
+
+
+ // -------- Events All
 
   function setupEvents() {
     const mainContainer = document.querySelector("main.main");
@@ -164,6 +212,23 @@
     window.addEventListener('hashchange', hashChangeHandler);
 
   }
+
+  function hashChangeHandler(event) {
+    let view = window.location.hash.slice(1);
+
+    //import controller
+    const cntr = window.STOKR.controller;
+
+    if(view === "") {
+      view = 'stocklist'
+    }
+
+    cntr.renderView(view);
+  }
+
+
+
+  // ------ Event Handlers StockList -------
 
   // event handler to toggle button content %, absolut market cap
   function eventToggleButtonInfoHandler(event) {
@@ -225,14 +290,7 @@
     }
   }
 
-  function hashChangeHandler(event) {
-    const view = window.location.hash.slice(1);
 
-    //import controller
-    const cntr = window.STOKR.controller;
-    cntr.renderView(view);
-
-  }
 
 
   // ==== PUBLIC
@@ -264,20 +322,21 @@
   }
 
   //main render function for search page
-  function renderSearchApp(stockData, uiState) {
+  function renderSearchApp(searchData, uiState) {
     //data container for all HTML to be rendered for stock list page
     let dataToRender = [];
 
     // render stocklist header
-    // dataToRender.push(renderStockListHeader());
+    dataToRender.push(renderSearchHeader());
 
+    dataToRender.push(renderSearchContainer(searchData, uiState));
 
     // append header to container
     let container = document.querySelector(".appContainer");
     container.innerHTML = dataToRender.join("");
 
     //add all events
-    setupEvents();
+    // setupEvents();
   }
 
 

@@ -20,7 +20,7 @@
     const filter = state.filter;
 
     switch (appView) {
-      case  'stockList':
+      case  'stocklist':
         //check if filter on or off
         if(model.getFilterMode()) {
           stockData = applyFilter(stockData);
@@ -31,7 +31,7 @@
 
         break;
       case 'stocksearch':
-        view.renderSearchApp(null, null);
+        view.renderSearchApp(stockData, null);
         break;
 
       default:
@@ -54,7 +54,7 @@
     //update global state
     model.setUiStockMode(currentState);
 
-    renderView('stockList');
+    renderView('stocklist');
   }
 
   function adjustStockOrder(position1, position2) {
@@ -70,7 +70,7 @@
     model.setStockDataItem(position1, stocks.stockData[position2]);
     model.setStockDataItem(position2, tempDataHolder2);
 
-    renderView('stockList');
+    renderView('stocklist');
   }
 
   function toggleStockArrows() {
@@ -89,14 +89,14 @@
     // toggle stock arrows
     toggleStockArrows();
 
-    renderView('stockList');
+    renderView('stocklist');
   }
 
   function updateFilterState(filterSettings) {
     // update filter state with data
     model.setFilterSettings(filterSettings);
 
-    renderView('stockList');
+    renderView('stocklist');
   }
 
   function applyFilter(stockData) {
@@ -184,11 +184,11 @@
     loadStateFromLocalStorage();
 
     //initial render (empty)
-    renderView('stockList');
+    renderView('stocklist');
 
     //fetch data and rerender
     fetchStocksAndSetState('server')
-      .then(() => renderView('stockList'));
+      .then(() => renderView('stocklist'));
   }
 
   init();
