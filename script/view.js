@@ -13,6 +13,15 @@
 
   // ==== PRIVATE
 
+  // -------- General ---------
+
+
+  // Update class for appContainer to match styling
+  function updateAppContainerClass (classes) {
+    document.querySelector('.appContainer').className = classes.join(" ");
+  }
+
+
 
   // --------- View StockList ----------
 
@@ -135,7 +144,7 @@
     const renderedHTML = renderStockList(data, uiState).join("");
 
     return `
-      <ul class="stockListContainer">
+      <ul class="list-container">
          ${renderedHTML}
       </ul>
     `
@@ -182,7 +191,7 @@
     const renderedHTML = renderSearchList(data, uiState).join("");
 
     return `
-      <ul class="stockListContainer search-items-container">
+      <ul class="list-container search-items-container">
          ${renderedHTML}
       </ul>
     `
@@ -317,6 +326,9 @@
     let container = document.querySelector(".appContainer");
     container.innerHTML = dataToRender.join("");
 
+    //update appContainer class
+    updateAppContainerClass(['appContainer', 'stock-list-app-container']);
+
     //add all events
     setupEvents();
   }
@@ -334,6 +346,9 @@
     // append header to container
     let container = document.querySelector(".appContainer");
     container.innerHTML = dataToRender.join("");
+
+    //update appContainer class
+    updateAppContainerClass(['appContainer', 'search-app-container']);
 
     //add all events
     // setupEvents();

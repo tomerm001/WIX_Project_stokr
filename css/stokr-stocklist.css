@@ -1,0 +1,165 @@
+
+/* ===== STOCK LIST ==== */
+
+
+
+/* ------ HEADER ------ */
+
+.stock-list-app-container header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stock-list-app-container header h1 {
+  margin: 0;
+  padding: 0;
+  color: #41bf15;
+  font-size: 39px;
+  font-weight: bold;
+}
+
+.stock-list-app-container header .headerButton {
+  display: inline-block;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0 10px;
+  height: 44px;
+  width: 41px;
+  font-size: 40px;
+  color: #ababab;
+}
+
+
+/* ------ Filter Section ------ */
+
+.stock-list-app-container .filter-form {
+  font-family: HelveticaNeueW01-55Roman, sans-serif;
+  font-size: 26px;
+  color: #59737c;
+  font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 29px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.stock-list-app-container .filter-form .inputs-container {
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stock-list-app-container .filter-form .inputs-container-section {
+  flex-grow: 1;
+  margin-right: 29px;
+}
+
+.stock-list-app-container .filter-form .input-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.stock-list-app-container .filter-form .inputs-container-section.section-left label {
+  width: 140px;
+}
+.stock-list-app-container .filter-form .inputs-container-section.section-right label {
+  width: 230px;
+}
+
+.stock-list-app-container .filter-form .input-container input {
+  border: solid 1px #e0e0e0;
+  border-radius: 10px;
+  height: 55px;
+  flex-grow: 1;
+}
+
+.stock-list-app-container .filter-form .filter-apply-button {
+  width: 120px;
+  height: 111px;
+  background-color: #41bf15;
+  border: solid 1px #247906;
+  color: white;
+  border-radius: 50%;
+  font-weight: 300;
+}
+
+
+/* ------ STOCK LIST ------ */
+
+
+
+.stock-list-app-container .stockItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: #59737c;
+  font-weight: 300;
+  font-size: 33px;
+  align-items: center;
+}
+
+.stock-list-app-container .stockItemRight {
+  display: flex;
+  align-items: center;
+}
+
+.stock-list-app-container .stockItemRight .stockPrice {
+  text-align: right;
+  font-family: "HelveticaNeueW01-55Roma", serif;
+  font-size: 30px;
+  color: #59737c;
+}
+
+.stock-list-app-container .stockItemRight .stockButton {
+  text-align: right;
+  color: #ffffff;
+  border-radius: 10px;
+  width: 150px;
+  height: 56px;
+  padding: 0 20px 0 0;
+  background-color: #ff4f46;;
+  font-size: 34px;
+  font-family: "Avenir", serif;
+  font-weight: 300;
+  border: none;
+  margin: 0 30px;
+}
+
+.stock-list-app-container .stockItemRight .stockButton.positive {
+  background-color: #63da39;
+}
+
+.stock-list-app-container .stockItemRight .stockButtonArrow {
+  display: block;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  line-height: 0;
+  font-size: 25px;
+  color: #ababab;
+}
+
+.stock-list-app-container .stockItemRight .stockButtonArrow.stockDownButton {
+  display: block;
+  transform: rotate(180deg);
+  text-align: center;
+}
+
+.stock-list-app-container .stockItemRight .stockButtonArrow:disabled,
+.stock-list-app-container .stockItemRight .stockButtonArrow.stockDownButton:disabled {
+  color:rgba(171, 171, 171, 0.2);
+}

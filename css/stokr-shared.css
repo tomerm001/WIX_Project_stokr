@@ -1,0 +1,72 @@
+/* =========
+SHARED CSS FOR STOKR APP
+============ */
+
+/*Add fonts to project*/
+@font-face {
+  font-family: "HelveticaNeueW01-55Roma";
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix");
+  src: url("../assets/fonts/HelveticaNeueW01-55Roman.eot?#iefix") format("eot"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.woff") format("woff"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.ttf") format("truetype"),
+  url("../assets/fonts/HelveticaNeueW01-55Roman.svg#helvetica_neue") format("svg");
+}
+
+/* ====== GENERAL ===== */
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 100%;
+  font-family: 'Lucida Grande', sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit
+}
+
+button:focus {
+  outline: none;
+}
+
+.main .appContainer {
+  margin: 50px auto auto;
+  max-width: 1383px;
+  min-width: 1000px;
+  padding: 40px 30px;
+  background-color: #f0f4f7;
+  border: 1px solid #f0f4f7;
+}
+
+
+
+/*List section ul/li*/
+
+.contentStrip {
+  margin: 1px 0;
+  padding: 30px 40px;
+  background-color: #fff;
+}
+
+.list-container {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: "Avenir", serif;
+  font-size: 33px;
+}
+
+.list-container li:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+
+
+/* ---- Styling for event listeners ----- */
+.not-visible {
+  visibility: hidden;
+}
+
+
