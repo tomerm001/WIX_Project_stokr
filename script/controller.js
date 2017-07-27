@@ -18,11 +18,12 @@
     let stockData = state.stocks.stockData;
     const uiState = state.ui;
     const filter = state.filter;
+    const searchData = state.search.results.result;
 
     switch (appView) {
       case  'stocklist':
         //check if filter on or off
-        if(model.getFilterMode()) {
+        if (model.getFilterMode()) {
           stockData = applyFilter(stockData);
         }
 
@@ -31,7 +32,7 @@
 
         break;
       case 'stocksearch':
-        view.renderSearchApp(stockData, null);
+        view.renderSearchApp(searchData, null);
         break;
 
       default:
@@ -62,7 +63,7 @@
 
     // change Stock Symbol List using temp element
     let tempDataHolder = stocks.stockSymbolList[position1];
-    model.setStockSymbolList(position1, stocks.stockSymbolList[position2] );
+    model.setStockSymbolList(position1, stocks.stockSymbolList[position2]);
     model.setStockSymbolList(position2, tempDataHolder);
 
     // change Stock Symbol List using temp element
@@ -109,24 +110,24 @@
       let include = true;
 
       // check name in name and symbol
-      if ( companyName !== ''
-            && !item.Name.toLowerCase().includes(companyName.toLowerCase())
-            && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
+      if (companyName !== ''
+        && !item.Name.toLowerCase().includes(companyName.toLowerCase())
+        && !item.Symbol.toLowerCase().includes(companyName.toLowerCase())) {
 
         include = false;
       }
-      if ( (rangeFrom !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) <= rangeFrom) {
+      if ((rangeFrom !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) <= rangeFrom) {
         include = false;
       }
-      if( (rangeTo !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) >= rangeTo){
+      if ((rangeTo !== '') && Math.abs(parseFloat(item.realtime_chg_percent)) >= rangeTo) {
         include = false;
       }
-      if ( companyGain !== '') {
+      if (companyGain !== '') {
         if (companyGain === 'Gaining' && parseFloat(item.realtime_chg_percent) < 0) {
           include = false;
         }
-        if(companyGain === 'Losing' && parseFloat(item.realtime_chg_percent) > 0) {
-          include= false;
+        if (companyGain === 'Losing' && parseFloat(item.realtime_chg_percent) > 0) {
+          include = false;
         }
 
       }
@@ -139,10 +140,28 @@
     return filteredData;
   }
 
+  function fetchStockSearch() {
+
+    const query = model.getSearchQuery();
+
+    const serverUrl = 'http://localhost:7000';
+    const httpRequest = `${serverUrl}/search?q=${query}`;
+
+    //fetch stock from server
+    return Promise.resolve(fetch(httpRequest)
+      .then(res => res.json())
+      .then(data => {
+        model.setSearchState(data.ResultSet.Result);
+        console.log(data);
+      })
+    )
+
+  }
+
   function fetchStocksAndSetState(source) {
 
     //fetch data from server or from local json file
-    if(source === 'server') {
+    if (source === 'server') {
       const stockList = model.getStockSymbolList();
       const serverUrl = 'http://localhost:7000';
       const httpRequest = `${serverUrl}/quotes?q=${stockList}`;
@@ -171,7 +190,7 @@
   function loadStateFromLocalStorage() {
     const stateFromStorage = localStorage.getItem('stokr-state');
 
-    if(stateFromStorage){
+    if (stateFromStorage) {
       model.setState(JSON.parse(stateFromStorage));
     }
   }
@@ -200,6 +219,7 @@
     toggleStockFilter,
     applyFilter,
     renderView,
-    updateFilterState
+    updateFilterState,
+    fetchStockSearch
   }
 })();

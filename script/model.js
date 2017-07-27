@@ -28,6 +28,15 @@
     stocks: {
       stockSymbolList: ["WIX", "MSFT", "AAPL, EBAY"],
       stockData: []
+    },
+    search: {
+      ui: {
+
+      },
+      results: {
+        query: 'apple',
+        result: []
+      }
     }
   };
 
@@ -62,6 +71,10 @@
 
   function getFilterSettings() {
     return state.filter;
+  }
+
+  function getSearchQuery() {
+    return state.search.results.query;
   }
 
   function setUiStockMode(mode) {
@@ -103,9 +116,15 @@
     notifyModelChanged();
   }
 
+  function setSearchState(data) {
+    state.search.results.result = data;
+    notifyModelChanged();
+  }
+
   function notifyModelChanged() {
     listeners.forEach( item => item());
   }
+
 
 
 
@@ -127,6 +146,8 @@
     setFilterMode,
     setFilterSettings,
     setStockData,
-    setState
+    setState,
+    getSearchQuery,
+    setSearchState
   };
 })();

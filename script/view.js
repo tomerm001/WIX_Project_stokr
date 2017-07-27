@@ -164,17 +164,17 @@
 
   // Render Specific Stock Item Line
   function renderSearchItem(itemData, index, dataLength, uiState) {
-    let {} = itemData;
+    let {symbol, name} = itemData;
 
     //get UI stockmode from model
 
     return `
       <li class="contentStrip search-item">
         <div class="search-item-text">
-          <span class="company-name">Ferarri</span>
-          <span class="exchange-name">Nasdaq</span>
+          <span class="company-name">${symbol}</span>
+          <span class="exchange-name">${name}</span>
         </div>
-        <button class="add-button">+</button>    
+        <button data-symbol="${symbol}" class="add-button">+</button>    
       </li>
     `
   }
@@ -202,7 +202,7 @@
 
  // -------- Events All
 
-  function setupEvents() {
+  function setupEventsStockList() {
     const mainContainer = document.querySelector("main.main");
 
     //add event listener for data toggle
@@ -220,6 +220,13 @@
     //add hashchange handler
     window.addEventListener('hashchange', hashChangeHandler);
 
+  }
+
+  function setupEventsSearch() {
+    const mainContainer = document.querySelector("main.main");
+
+    //add event listener for data toggle
+    mainContainer.addEventListener("click", updateSearchQueryHandler);
   }
 
   function hashChangeHandler(event) {
@@ -300,6 +307,15 @@
   }
 
 
+  // ------ Event Handlers Search -------
+
+  function updateSearchQueryHandler(event) {
+    const queryTerm = event.target.value;
+  }
+
+
+
+
 
 
   // ==== PUBLIC
@@ -308,8 +324,6 @@
   function renderStocksApp(stockData, uiState, filter) {
     //data container for all HTML to be rendered for stock list page
     let dataToRender = [];
-
-    //render app container
 
     // render stocklist header
     dataToRender.push(renderStockListHeader());
@@ -330,13 +344,15 @@
     updateAppContainerClass(['appContainer', 'stock-list-app-container']);
 
     //add all events
-    setupEvents();
+    setupEventsStockList();
   }
 
   //main render function for search page
   function renderSearchApp(searchData, uiState) {
     //data container for all HTML to be rendered for stock list page
     let dataToRender = [];
+
+    console.log(searchData);
 
     // render stocklist header
     dataToRender.push(renderSearchHeader());
@@ -351,7 +367,7 @@
     updateAppContainerClass(['appContainer', 'search-app-container']);
 
     //add all events
-    // setupEvents();
+    setupEventsSearch();
   }
 
 
