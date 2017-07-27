@@ -260,7 +260,85 @@ button:focus {
 
 
 
+/* ------ SEARCH ------ */
+.searchApp-container .search-container {
+  display: flex;
+  vertical-align: middle;
+  position: relative;
+}
+
+.searchApp-container .search-container .search-input {
+  flex-grow: 1;
+  height: 62px;
+  border-radius: 20px;
+  background-color: #ffffff;
+  border: solid 1px #408be3;
+  font-family: HelveticaNeueW01-55Roman, sans-serif;
+  font-size: 26px;
+  color: #607982;
+  padding-left: 20px;
+  padding-right: 50px;
+}
+.searchApp-container .search-container .search-input:focus {
+  outline: none;
+}
+
+.searchApp-container .search-container .search-input:focus + .search-cancel {
+  color: #41bf15;
+}
+
+.searchApp-container .search-container .search-cancel {
+  display: inline-block;
+  position: absolute;
+  right: 70px;
+  border: none;
+  background-color: transparent;
+  width: 88px;
+  height: 31px;
+  font-family: HelveticaNeueW01-55Roman,sans-serif;
+  font-size: 26px;
+  color: #59737c;
+  font-weight: 300;
+}
+
+.searchApp-container .search-items-container {
+  display: flex;
+  width: 100%;
+}
+
+.searchApp-container .search-item {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchApp-container .search-item-text {
+  font-family: Avenir, sans-serif;
+  font-size: 33px;
+  font-weight: 300;
+  color: #59737c;
+  text-transform: uppercase;
+  display: flex;
+  padding: 0;
+  margin: 0;
+  align-items: center;
+}
 
 
 
+.searchApp-container .search-item-text .exchange-name {
+  color: #1c2527;
+  padding-left: 30px;
+  vertical-align: middle;
+}
 
+.searchApp-container .add-button {
+  width: 69px;
+  height: 56px;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #41bf15;
+  border: none;
+  color: white;
+  font-weight: 300;
+}

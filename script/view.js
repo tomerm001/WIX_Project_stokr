@@ -242,6 +242,8 @@
     //data container for all HTML to be rendered for stock list page
     let dataToRender = [];
 
+    //render app container
+
     // render stocklist header
     dataToRender.push(renderStockListHeader());
 
